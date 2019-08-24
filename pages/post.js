@@ -3,6 +3,7 @@ import { withRouter } from 'next/router'
 
 function Index(props) {
   let pageJson = {}
+  console.log('dying light', props.router);
   if (props.router.query) {
     if (props.router.query.fullUrl) {
       pageJson = require(`../content${props.router.query.fullUrl}.json`)
@@ -44,7 +45,7 @@ function Index(props) {
         copyright={CONFIG.copyright}
         siteId={CONFIG.siteId}
       /> */}
-      Hello, Godzilla
+      <div dangerouslySetInnerHTML={{ __html: props.router.query.content }}></div>
     </div>
   )
 }

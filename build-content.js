@@ -16,55 +16,52 @@ const convertor = new showdown.Converter();
                 // If directory, execute a recursive call
                 if (stat && stat.isDirectory()) {
                     // Add directory to array [comment if you need to remove the directories from the array]
-                    results.push(file);
+                    // results.push(file);
                     filewalker(file, function (err, res) {
                         results = results.concat(res);
                         if (!--pending) done(null, results);
                     });
                 } else {
-                    const match = /^(.*)\/([\w-]+)\.md/.exec(file);
-                    if (match) {
-                        fs.readFile(file, 'utf8', (err, content) => {
-                            fs.writeFile(
-                                `${match[1]}/${match[2]}.html`,
-                                convertor.makeHtml(
-                                    content.replace(/---(?:.|\n)*---/gm, '')
-                                ),
-                                err => {
-                                    if (err) {
-                                        console.error(`Error writing to ${match[1]}/${match[2]}.html`, err);
-                                        process.exit(2);
-                                    }
-                                }
-                            );
-                            fs.writeFile(
-                                `${match[1]}/${match[2]}.json`,
-                                JSON.stringify(fm(content), null, 4),
-                                err => {
-                                    if (err) {
-                                        console.error(`Error writing to ${match[1]}/${match[2]}.json`, err);
-                                        process.exit(4);
-                                    }
-                                }
-                            );
-                        });
-                    }
+                    // const match = /^(.*)\/([\w-]+)\.md/.exec(file);
+                    // if (match) {
                     results.push(file);
+                    // } else {
+                    // results.push(file);
+                    // }
+                    // results.push(file);
                     if (!--pending) done(null, results);
                 }
             });
         });
     });
 }('./content', function (err, data) {
-    if (err) { throw err; }
-    fs.writeFile('./build.json', JSON.stringify(
-        data.filter(filePath => /\.html$/.test(filePath))
-            .map(filePath => filePath.replace(`${process.cwd()}/content`, '').replace(/\.[\w]+$/, '')),
-        null, 4
-    ), err => {
-        if (err) {
-            console.error(`Error writing to ./build.json`, err);
-            process.exit(8);
-        }
-    })
+    if (err) {
+        throw err;
+    } else {
+        fs.writeFile('./build.json', JSON.stringify(
+            data.filter(file => /\.md/.test(file))
+                .map(file => {
+                    const content = fs.readFileSync(file, 'utf8');
+                    return {
+                        content: convertor.makeHtml(
+                            content.replace(/---(?:.|\n)*---/gm, '')
+                        ),
+                        metadata: fm(content),
+                        slug: file.replace(`${process.cwd()}/content`, '')
+                            .replace(/\.\w+$/, '')
+                    };
+                }),
+            null, 4
+        ), err => {
+            if (err) {
+                console.error(`Error writing to ./build.json`, err);
+                process.exit(8);
+            } else {
+                console.log('Build completed successfully..!')
+            }
+        });
+    }
+    //  results.push({
+    // });
+
 }));
