@@ -1,11 +1,5 @@
 import React from 'react'
 import { withRouter } from 'next/router'
-import Page from '../src/components/Page'
-import PagePreview from '../src/components/PagePreview'
-import { formatDate } from '../src/utils/date'
-
-import CONFIG from '../content/index.json'
-import SUMMARY_JSON from '../content/summary.json'
 
 function Index(props) {
   let pageJson = {}
@@ -39,7 +33,7 @@ function Index(props) {
           border: 1px solid #DDD;
         }
       `}</style>
-      <Page
+      {/* <Page
         siteTitle={`${CONFIG.siteTitle} - ${pageJson.title}`}
         heroTitle={CONFIG.siteTitle}
         description={CONFIG.description}
@@ -49,7 +43,8 @@ function Index(props) {
         body={Body(pageJson)}
         copyright={CONFIG.copyright}
         siteId={CONFIG.siteId}
-      />
+      /> */}
+      Hello, Godzilla
     </div>
   )
 }

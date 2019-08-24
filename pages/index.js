@@ -4,13 +4,13 @@ import PagePreview from '../src/components/PagePreview'
 import { formatDate } from '../src/utils/date'
 import { makeUrl, filterPosts } from '../src/utils/content'
 
-import CONFIG from '../content/index.json'
-import SUMMARY_JSON from '../content/summary.json'
+// import CONFIG from '../content/index.json'
+// import SUMMARY_JSON from '../content/summary.json'
 
 function Index(props) {
   return (
     <div>
-      <Page
+      {/* <Page
         siteTitle={`${CONFIG.siteTitle} - Index`}
         heroTitle={CONFIG.siteTitle}
         description={CONFIG.description}
@@ -20,7 +20,8 @@ function Index(props) {
         body={Body({ summaryJson: SUMMARY_JSON })}
         copyright={CONFIG.copyright}
         siteId={CONFIG.siteId}
-      />
+      /> */}
+      Hello, Leviathan
     </div>
   )
 }
